@@ -1,0 +1,21 @@
+<!--Trade Values-->
+<Cube name="Trade Values">
+
+    <Table name="trade_values"/>
+        
+        <!--Dimension-->    
+        <Dimension foreign_key="dim_year" name="Year">
+            <Hierarchy name="Year" primary_key="dim_year">
+                <Level name="Year" key_column="dim_year" />
+            </Hierarchy>
+        </Dimension>
+        
+        <Dimension foreign_key="oec_id" name="Country">
+            <Hierarchy name="Country" primary_key="oec_id">
+                <Level name="Country" key_column="comtrade_name"/>
+            </Hierarchy>
+        </Dimension>    
+
+        <!--Measure-->
+        <Measure name="Trade Values" column="trade_value" aggregator="sum"/>
+</Cube>

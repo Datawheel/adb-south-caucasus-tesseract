@@ -1,2 +1,3 @@
 # adb-south-caucasus-tesseract
-Project schemas
+
+This repository is intended to store all schemas related to the ADB project.-
