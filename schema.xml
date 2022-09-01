@@ -51,4 +51,28 @@
     </Cube>
 
 
+    <!--GDP-->
+    <Cube name="GDP">
+    
+        <Table name="gdp"/>
+            
+            <!--Dimension-->    
+            <Dimension foreign_key="year" name="Year">
+                <Hierarchy name="Year" primary_key="year">
+                    <Level name="Year" key_column="year" />
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="country_id" name="Country ID">
+                <Hierarchy name="Country ID" primary_key="country_id">
+                    <Level name="Country ID" key_column="country_id"/>
+                </Hierarchy>
+            </Dimension>  
+
+            <!--Measure-->
+            <Measure name="Gross Domestic Product (GDP)" column="gdp" aggregator="sum"/>
+    </Cube>
+
+
+
 </Schema>
