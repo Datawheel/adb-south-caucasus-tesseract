@@ -1,0 +1,31 @@
+<Schema name="adb-south-caucasus">
+
+    <!--Trade Values-->
+    <Cube name="Trade Values">
+    
+        <Table name="trade_values"/>
+            
+            <!--Dimension-->    
+            <Dimension foreign_key="year" name="Year">
+                <Hierarchy name="Year" primary_key="year">
+                    <Level name="Year" key_column="year" />
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="exporter_country_id" name="Exporter Country">
+                <Hierarchy name="Exporter Country" primary_key="exporter_country_id">
+                    <Level name="Exporter Country" key_column="exporter_country_id"/>
+                </Hierarchy>
+            </Dimension>  
+
+            <Dimension foreign_key="importer_country_id" name="Importer Country">
+                <Hierarchy name="Importer Country" primary_key="importer_country_id">
+                    <Level name="Importer Country" key_column="importer_country_id"/>
+                </Hierarchy>
+            </Dimension>  
+
+            <!--Measure-->
+            <Measure name="Trade Values" column="trade_value" aggregator="sum"/>
+    </Cube>
+
+</Schema>
