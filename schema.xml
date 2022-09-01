@@ -28,4 +28,27 @@
             <Measure name="Trade Values" column="trade_value" aggregator="sum"/>
     </Cube>
 
+    <!--Gini-->
+    <Cube name="Gini">
+    
+        <Table name="gini"/>
+            
+            <!--Dimension-->    
+            <Dimension foreign_key="year" name="Year">
+                <Hierarchy name="Year" primary_key="year">
+                    <Level name="Year" key_column="year" />
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="country_id" name="Country ID">
+                <Hierarchy name="Country ID" primary_key="country_id">
+                    <Level name="Country ID" key_column="country_id"/>
+                </Hierarchy>
+            </Dimension>  
+
+            <!--Measure-->
+            <Measure name="Gini Index" column="gini" aggregator="avg"/>
+    </Cube>
+
+
 </Schema>
