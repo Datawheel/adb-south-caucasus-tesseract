@@ -12,6 +12,23 @@
                 </Hierarchy>
             </Dimension>
 
+            <Dimension name="Exporter Country" foreign_key="exporter_country_id">
+                <Hierarchy name="Exporter Country">
+                    <Table name="dim_countries"/>    
+                        <Level name="Exporter Country" key_column="oec_id" name_column="comtrade_name" key_type="text"/>
+                        <!-- del mas amplio al más especifico-->                        
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension name="Importer Country" foreign_key="importer_country_id">
+                <Hierarchy name="Importer Country">
+                    <Table name="dim_countries"/>    
+                        <Level name="Importer Country" key_column="oec_id" name_column="comtrade_name" key_type="text"/>
+                        <!-- del mas amplio al más especifico-->                        
+                </Hierarchy>
+            </Dimension>
+            
+<!--
             <Dimension foreign_key="exporter_country_id" name="Exporter Country">
                 <Hierarchy name="Exporter Country" primary_key="exporter_country_id">
                     <Level name="Exporter Country" key_column="exporter_country_id"/>
@@ -22,7 +39,19 @@
                 <Hierarchy name="Importer Country" primary_key="importer_country_id">
                     <Level name="Importer Country" key_column="importer_country_id"/>
                 </Hierarchy>
-            </Dimension>  
+            </Dimension>
+-->
+            <Dimension name="Product" foreign_key="hs6_id">
+                <Hierarchy name="Product">
+                    <Table name="dim_product"/>    
+                        <Level name="HS2" key_column="hs2" name_column="hs2_name" key_type = "nontext"/>
+                        <Level name="HS4" key_column="hs4" name_column="hs4_name" key_type = "nontext"/>
+                        <Level name="HS6" key_column="hs6" name_column="hs6_name" key_type = "nontext"/>
+                        <!-- del mas amplio al más especifico-->                        
+                </Hierarchy>
+            </Dimension>
+
+
 
             <!--Measure-->
             <Measure name="Trade Values" column="trade_value" aggregator="sum"/>

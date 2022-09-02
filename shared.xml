@@ -1,0 +1,19 @@
+<Schema>
+    <SharedDimension name="HS02">
+        <Hierarchy name="HS02">
+            <Table name="dim_product" />
+            <Level name="HS2" key_column="hs2_id" name_column="hs2_name">
+                <Property name="HS2" column="hs2" />
+                <Property name="HS2 ES" column="hs2_name_es" caption_set="es" />
+            </Level>
+            <Level name="HS4" key_column="hs4_id" name_column="hs4_name">
+                <Property name="HS4" column="hs4" />
+                <Property name="HS4 ES" column="hs4_name_es" caption_set="es" />
+            </Level>
+            <Level name="HS6" key_column="hs6_id" name_column="hs6_name">
+                <Property name="HS6" column="hs6" />
+                <Property name="HS6 ES" column="hs6_name_es" caption_set="es" />
+            </Level>
+        </Hierarchy>
+    </SharedDimension>
+</Schema>
