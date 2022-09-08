@@ -73,6 +73,25 @@
             <Measure name="Gross Domestic Product (GDP)" column="gdp" aggregator="sum"/>
     </Cube>
 
+    <!--Emissions-->
+    <Cube name="Emissions ECI">
+        <Table name="emissions"/>
+
+            <Dimension foreign_key='year' name='year'>
+                <Hierarchy name='Year' primary_key='year'>
+                    <Level name='Year' key_column='year'/>
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="country" name="Country ID">
+                <Hierarchy name="Country ID" primary_key="country">
+                    <Level name="Country ID" key_column="country"/>
+                </Hierarchy>
+            </Dimension> 
+            <!--Measure-->
+            <Measure name="ECI Trade" column="eci_trade" aggregator="sum"/>
+    </Cube>
+
 
 
 </Schema>
