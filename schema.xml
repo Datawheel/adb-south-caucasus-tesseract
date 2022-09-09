@@ -30,6 +30,18 @@
                 </Hierarchy>
             </Dimension>  
 
+            <Dimension foreign_key="hs6_id" name="Product">
+                <Hierarchy name="Product">
+                    <Table name="dim_product"/>
+                        <Level name="HS2" key_column="hs2" name_column="hs2_name" key_type="nontext">
+                        </Level>
+                        <Level name="HS4" key_column="hs4" name_column="hs4_name" key_type="nontext">
+                        </Level>
+                        <Level name="HS6" key_column="hs6" name_column="hs6_name" key_type="nontext">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+
             <!--Measure-->
             <Measure name="Trade Values" column="trade_value" aggregator="sum"/>
     </Cube>
@@ -85,16 +97,16 @@
     </Cube>
 
     <!--Emissions-->
-    <Cube name="Emissions ECI">
+    <Cube name="Emissions">
         <Table name="emissions"/>
 
-            <Dimension foreign_key='year' name='year'>
+            <Dimension foreign_key='year' name='Year'>
                 <Hierarchy name='Year' primary_key='year'>
                     <Level name='Year' key_column='year'/>
                 </Hierarchy>
             </Dimension>
 
-            <Dimension foreign_key="country" name="Country">
+            <Dimension foreign_key="country_id" name="Country">
                 <Hierarchy name="Geography">
                     <Table name="dim_countries"/>
                         <Level name="Country" key_column="iso_3" name_column="comtrade_name" key_type="text">
@@ -103,36 +115,8 @@
                 </Hierarchy>
             </Dimension>  
             <!--Measure-->
-            <Measure name="Population" column="population" aggregator="sum"/>
-            <Measure name="Exports" column="exports" aggregator="sum"/>
-            <Measure name="ECI Trade" column="eci_trade" aggregator="sum"/>
-            <Measure name="Fitness Trade" column="fitness_trade" aggregator="sum"/>
-            <Measure name="ECI Publications" column="eci_publications" aggregator="sum"/>
-            <Measure name="Fitness Publications" column="fitness_publications" aggregator="sum"/>
-            <Measure name="Emissions" column="documents" aggregator="sum"/>
-            <Measure name="Emissions" column="citations" aggregator="sum"/>
-            <Measure name="Emissions" column="eci_patents" aggregator="sum"/>
-            <Measure name="Fitness Patents" column="fitness_patents" aggregator="sum"/>
-            <Measure name="Patents" column="patents" aggregator="sum"/>
-            <Measure name="ECI Services" column="eci_services" aggregator="sum"/>
-            <Measure name="Fitness Services" column="fitness_services" aggregator="sum"/>
-            <Measure name="Service Exports" column="service_exports" aggregator="sum"/>
-            <Measure name="GDP Start" column="gdp_start" aggregator="sum"/>
-            <Measure name="Emissions" column="emissions" aggregator="sum"/>
-            <Measure name="Hum Cap" column="hum_cap" aggregator="sum"/>
-            <Measure name="ECI Similarity Trade" column="eci_similarity_trade" aggregator="sum"/>
-            <Measure name="ECI Similarity Publications" column="eci_similarity_publications" aggregator="sum"/>
-            <Measure name="ECI Similarity Patents" column="eci_similarity_patents" aggregator="sum"/>
-            <Measure name="ECI Similarity Services" column="eci_similarity_services" aggregator="sum"/>
-            <Measure name="Entropy Trade" column="entropy_trade" aggregator="sum"/>
-            <Measure name="Entropy Publications" column="entropy_publications" aggregator="sum"/>
-            <Measure name="Entropy Patents" column="entropy_patents" aggregator="sum"/>
-            <Measure name="Entropy Services" column="entropy_services" aggregator="sum"/>
-            <Measure name="HHI Trade" column="hhi_trade" aggregator="sum"/>
-            <Measure name="HHI Publications" column="hhi_publications" aggregator="sum"/>
-            <Measure name="HHI Patents" column="hhi_patents" aggregator="sum"/>
-            <Measure name="HHI Services" column="hhi_services" aggregator="sum"/>
-            <Measure name="Nat Res" column="nat_res" aggregator="sum"/>
+            <Measure name="Emissions KCO2" column="emissions_KCO2" aggregator="sum"/>
+
     </Cube>
 
 
