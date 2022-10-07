@@ -46,6 +46,7 @@
             <Measure name="Trade Values" column="trade_value" aggregator="sum"/>
     </Cube>
 
+
     <!--Gini-->
     <Cube name="Gini">
     
@@ -110,7 +111,6 @@
                 <Hierarchy name="Geography">
                     <Table name="dim_countries"/>
                         <Level name="Country" key_column="iso_3" name_column="comtrade_name" key_type="text">
-                        <Property name="Exporter Country OEC ID" column="oec_id"/>
                         </Level>
                 </Hierarchy>
             </Dimension>  
@@ -119,6 +119,103 @@
 
     </Cube>
 
+    <!--RCA-->
+    <Cube name="RCA">
+    
+        <Table name="rca"/>
+            
+            <!--Dimension-->    
+            <Dimension foreign_key="geo_id" name="Exporter">
+                <Hierarchy name="Geography">
+                    <Table name="dim_countries"/>
+                        <Level name="Exporter" key_column="oec_id" key_name = "comtrade_name" key_type="text">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+
+
+            <Dimension foreign_key="hs4_id" name="Product">
+                <Hierarchy name="Product">
+                    <Table name="dim_hs4"/>
+                        <Level name="HS2" key_column="hs2_id" name_column="hs2" key_type="nontext">
+                        </Level>
+                        <Level name="HS4" key_column="hs4_id" name_column="hs4" key_type="nontext">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+
+            <Dimension foreign_key="dataset" name="Dataset">
+                <Hierarchy name="Dataset" primary_key="dataset">
+                    <Level name="Dataset" key_column="dataset" key_type="nontext" />
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="with_oil" name="With Oil">
+                <Hierarchy name="With Oil" primary_key="with_oil">
+                    <Level name="With Oil" key_column="with_oil" key_type="nontext"/>
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="with_aga" name="With AGA">
+                <Hierarchy name="With AGA" primary_key="with_aga">
+                    <Level name="With AGA" key_column="with_aga" key_type="nontext"/>
+                </Hierarchy>
+            </Dimension>
+
+            <!--Measure-->
+            <Measure name="RCA" column="rca" aggregator="sum">
+            </Measure>
+    </Cube>
+
+
+
+    <!--RCA-->
+    <Cube name="RCA">
+    
+        <Table name="rca"/>
+            
+            <!--Dimension-->    
+            <Dimension foreign_key="geo_id" name="Exporter">
+                <Hierarchy name="Geography">
+                    <Table name="dim_countries"/>
+                        <Level name="Exporter" key_column="oec_id" key_name = "comtrade_name" key_type="text">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+
+
+            <Dimension foreign_key="hs4_id" name="Product">
+                <Hierarchy name="Product">
+                    <Table name="dim_hs4"/>
+                        <Level name="HS2" key_column="hs2_id" name_column="hs2" key_type="nontext">
+                        </Level>
+                        <Level name="HS4" key_column="hs4_id" name_column="hs4" key_type="nontext">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+
+            <Dimension foreign_key="dataset" name="Dataset">
+                <Hierarchy name="Dataset" primary_key="dataset">
+                    <Level name="Dataset" key_column="dataset" key_type="nontext" />
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="with_oil" name="With Oil">
+                <Hierarchy name="With Oil" primary_key="with_oil">
+                    <Level name="With Oil" key_column="with_oil" key_type="nontext"/>
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="with_aga" name="With AGA">
+                <Hierarchy name="With AGA" primary_key="with_aga">
+                    <Level name="With AGA" key_column="with_aga" key_type="nontext"/>
+                </Hierarchy>
+            </Dimension>
+
+            <!--Measure-->
+            <Measure name="RCA" column="rca" aggregator="sum">
+            </Measure>
+    </Cube>
 
 
 </Schema>
