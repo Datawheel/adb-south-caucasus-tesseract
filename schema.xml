@@ -4,7 +4,7 @@
         <Hierarchy name="Country">
             <Table name="dim_countries" />
                 <Level key_column="oec_id" name="Exporter" name_column="comtrade_name" key_type="text">
-                    <Property name="Importer Country ISO 3" column="iso_3"/>
+                    <Property name="ISO 3" column="iso_3"/>
                 </Level>
         </Hierarchy>
     </SharedDimension>
@@ -154,31 +154,6 @@
             <Measure name="Export Values" column="trade_value" aggregator="sum"/>
     </Cube>
 
-    <!--Gini-->
-    <Cube name="Gini">
-    
-        <Table name="gini"/>
-            
-            <!--Dimension-->    
-            <Dimension foreign_key="year" name="Year">
-                <Hierarchy name="Year" primary_key="year">
-                    <Level name="Year" key_column="year" />
-                </Hierarchy>
-            </Dimension>
-
-            <Dimension foreign_key="country_id" name="Country">
-                <Hierarchy name="Geography">
-                    <Table name="dim_countries"/>
-                        <Level name="Country" key_column="iso_3" name_column="comtrade_name" key_type="text">
-                        <Property name="Exporter Country OEC ID" column="oec_id"/>
-                        </Level>
-                </Hierarchy>
-            </Dimension>  
-
-            <!--Measure-->
-            <Measure name="Gini Index" column="gini" aggregator="avg"/>
-    </Cube>
-
     <!--GDP-->
     <Cube name="GDP">
     
@@ -191,14 +166,9 @@
                 </Hierarchy>
             </Dimension>
 
-            <Dimension foreign_key="country_id" name="Country">
-                <Hierarchy name="Geography">
-                    <Table name="dim_countries"/>
-                        <Level name="Country" key_column="iso_3" name_column="comtrade_name" key_type="text">
-                        <Property name="Exporter Country OEC ID" column="oec_id"/>
-                        </Level>
-                </Hierarchy>
-            </Dimension>  
+            <DimensionUsage foreign_key="oec_id" name="Exporter" source="Geography">
+            </DimensionUsage>
+
             <!--Measure-->
             <Measure name="Gross Domestic Product (GDP)" column="gdp" aggregator="sum"/>
     </Cube>
@@ -213,16 +183,32 @@
                 </Hierarchy>
             </Dimension>
 
-            <Dimension foreign_key="country_id" name="Country">
-                <Hierarchy name="Geography">
-                    <Table name="dim_countries"/>
-                        <Level name="Country" key_column="iso_3" name_column="comtrade_name" key_type="text">
-                        </Level>
-                </Hierarchy>
-            </Dimension>  
+            <DimensionUsage foreign_key="oec_id" name="Exporter" source="Geography">
+            </DimensionUsage>
+
             <!--Measure-->
             <Measure name="Emissions KCO2" column="emissions_KCO2" aggregator="sum"/>
 
+    </Cube>
+
+    <!--Gini-->
+    <Cube name="Gini">
+    
+        <Table name="gini"/>
+            
+            <!--Dimension-->    
+            <Dimension foreign_key="year" name="Year">
+                <Hierarchy name="Year" primary_key="year">
+                    <Level name="Year" key_column="year" />
+                </Hierarchy>
+            </Dimension>
+
+            <DimensionUsage foreign_key="oec_id" name="Exporter" source="Geography">
+            </DimensionUsage>
+
+
+            <!--Measure-->
+            <Measure name="Gini Index" column="gini" aggregator="avg"/>
     </Cube>
 
     <!--RCA-->
@@ -321,6 +307,106 @@
             </Measure>
     </Cube>
 
+    <!--Oportunity Gain-->
+    <Cube name="Oportunity Gain">
+    
+        <Table name="op_gain"/>
+            
+            <!--Dimension-->    
+            <DimensionUsage foreign_key="geo_id" name="Exporter" source="Geography">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
+
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Oportunity Gain" column="op_gain" aggregator="sum">
+            </Measure>
+
+    </Cube>
+
+    <!--Similarity-->
+    <Cube name="Similarity">
+        <Table name="similarity"/>
+            
+            <!--Dimension-->    
+
+            <Dimension foreign_key="geo_id_1" name="Geography A">
+                <Hierarchy name="Geography A">
+                    <Table name="dim_countries" />
+                        <Level key_column="oec_id" name="Geography A" name_column="comtrade_name" key_type="text">
+                        <Property name="ISO 3 A" column="iso_3"/>
+                        </Level>
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="geo_id_2" name="Geography B">
+                <Hierarchy name="Geography B">
+                    <Table name="dim_countries" />
+                        <Level key_column="oec_id" name="Geography B" name_column="comtrade_name" key_type="text">
+                        <Property name="ISO 3 B" column="iso_3"/>
+                        </Level>
+                </Hierarchy>
+            </Dimension>
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Similarity" column="similarity" aggregator="sum">
+            </Measure>
+    </Cube>
+
+
+    <!--Similarity-->
+    <Cube name="Similarity">
+        <Table name="similarity"/>
+            
+            <!--Dimension-->    
+
+            <Dimension foreign_key="geo_id_1" name="Geography A">
+                <Hierarchy name="Geography A">
+                    <Table name="dim_countries" />
+                        <Level key_column="oec_id" name="Geography A" name_column="comtrade_name" key_type="text">
+                        </Level>
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="geo_id_2" name="Geography B">
+                <Hierarchy name="Geography B">
+                    <Table name="dim_countries" />
+                        <Level key_column="oec_id" name="Geography B" name_column="comtrade_name" key_type="text">
+                        </Level>
+                </Hierarchy>
+            </Dimension>
+
+
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Similarity" column="similarity" aggregator="sum">
+            </Measure>
+    </Cube>
+
     <!--Proximity-->
     <Cube name="Proximity">
     
@@ -347,8 +433,6 @@
                         </Level>
                 </Hierarchy>
             </Dimension>  
-            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
-            </DimensionUsage> -->
 
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
@@ -361,70 +445,6 @@
             </Measure>
     </Cube>
 
-    <!--Similarity-->
-    <Cube name="Similarity">
-    
-        <Table name="similarity"/>
-            
-            <!--Dimension-->    
 
-            <Dimension foreign_key="geo_id_1" name="Geography A">
-                <Hierarchy name="Geography A">
-                    <Table name="dim_countries" />
-                        <Level key_column="oec_id" name="Geography A" name_column="comtrade_name" key_type="text">
-                            <Property name="Importer Country ISO 3" column="iso_3"/>
-                        </Level>
-                </Hierarchy>
-            </Dimension>
-
-            <Dimension foreign_key="geo_id_2" name="Geography B">
-                <Hierarchy name="Geography B">
-                    <Table name="dim_countries" />
-                        <Level key_column="oec_id" name="Geography B" name_column="comtrade_name" key_type="text">
-                            <Property name="Importer Country ISO 3" column="iso_3"/>
-                        </Level>
-                </Hierarchy>
-            </Dimension>
-
-
-            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
-            </DimensionUsage> -->
-
-            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
-            </DimensionUsage>
-
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
-            </DimensionUsage>
-
-            <!--Measure-->
-            <Measure name="Similarity" column="similarity" aggregator="sum">
-            </Measure>
-    </Cube>
-
-    <!--Oportunity Gain-->
-    <Cube name="Oportunity Gain">
-    
-        <Table name="op_gain"/>
-            
-            <!--Dimension-->    
-            <DimensionUsage foreign_key="geo_id" name="Exporter" source="Geography">
-            </DimensionUsage>
-
-            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
-            </DimensionUsage>
-
-            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
-            </DimensionUsage> -->
-
-            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
-            </DimensionUsage>
-
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
-            </DimensionUsage>
-
-            <!--Measure-->
-            <Measure name="Oportunity Gain" column="op_gain" aggregator="sum">
-            </Measure>
-    </Cube>
 
 </Schema>
