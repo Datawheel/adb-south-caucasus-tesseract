@@ -1,5 +1,88 @@
 <Schema name="adb-south-caucasus">
 
+    <SharedDimension name="Geography">
+        <Hierarchy name="Country">
+            <Table name="dim_countries" />
+                <Level key_column="oec_id" name="Exporter" name_column="comtrade_name" key_type="text">
+                    <Property name="Importer Country ISO 3" column="iso_3"/>
+                </Level>
+        </Hierarchy>
+    </SharedDimension>
+
+    <SharedDimension name="Product">
+        <Hierarchy name="HS4">
+            <Table name="dim_hs4"/>
+                <Level name="Section" key_column="section_id" name_column="section" key_type="nontext">
+                </Level>
+                <Level name="HS2" key_column="hs2_id" name_column="hs2" key_type="nontext">
+                </Level>
+                <Level name="HS4" key_column="hs4_id" name_column="hs4" key_type="nontext">
+                </Level>
+        </Hierarchy>
+    </SharedDimension>  
+
+    <SharedDimension name="With Oil">
+        <Hierarchy name="With Oil">
+            <InlineTable alias="oil_table">
+                <ColumnDef name="oil_code" key_type="nontext" key_column_type="UInt16" />
+                <ColumnDef name="oil_bool" key_type="text" caption_set="en"/>
+                <Row>
+                    <Value column="oil_code">0</Value>
+                    <Value column="oil_bool">No</Value>
+                </Row>
+                <Row>
+                    <Value column="oil_code">1</Value>
+                    <Value column="oil_bool">Yes</Value>
+                </Row>
+            </InlineTable>
+            <Level name="With Oil" key_column="oil_code" name_column="oil_bool" key_type="nontext" />
+        </Hierarchy>
+    </SharedDimension>
+
+    <SharedDimension name="With AGA">
+        <Hierarchy name="With AGA">
+            <InlineTable alias="aga_table">
+                <ColumnDef name="aga_code" key_type="nontext" key_column_type="UInt16" />
+                <ColumnDef name="aga_bool" key_type="text" caption_set="en"/>
+                <Row>
+                    <Value column="aga_code">0</Value>
+                    <Value column="aga_bool">No</Value>
+                </Row>
+                <Row>
+                    <Value column="aga_code">1</Value>
+                    <Value column="aga_bool">Yes</Value>
+                </Row>
+            </InlineTable>
+            <Level name="With AGA" key_column="aga_code" name_column="aga_bool" key_type="nontext" />
+        </Hierarchy>
+    </SharedDimension>
+
+    <SharedDimension name="Dataset">
+        <Hierarchy name="Dataset">
+            <InlineTable alias="dataset_table">
+                <ColumnDef name="dataset_code" key_type="nontext" key_column_type="UInt16" />
+                <ColumnDef name="dataset_name" key_type="text" caption_set="en"/>
+                <Row>
+                    <Value column="dataset_code">0</Value>
+                    <Value column="dataset_name">df_countries</Value>
+                </Row>
+                <Row>
+                    <Value column="dataset_code">1</Value>
+                    <Value column="dataset_name">df_countries_no_oil</Value>
+                </Row>
+                <Row>
+                    <Value column="dataset_code">2</Value>
+                    <Value column="dataset_name">df_countries_aga</Value>
+                </Row>
+                <Row>
+                    <Value column="dataset_code">3</Value>
+                    <Value column="dataset_name">df_countries_aga_no_oil</Value>
+                </Row>                             
+            </InlineTable>
+            <Level name="Dataset" key_column="dataset_code" name_column="dataset_name" key_type="nontext" />
+        </Hierarchy>
+    </SharedDimension>
+
     <!--Trade Values-->
     <Cube name="Trade Values">
     
@@ -46,6 +129,30 @@
             <Measure name="Trade Values" column="trade_value" aggregator="sum"/>
     </Cube>
 
+    <!--Export Values-->
+    <Cube name="Export Values">
+    
+        <Table name="exports"/>
+    
+            <!--Dimension-->    
+            <DimensionUsage foreign_key="oec_id" name="Exporter" source="Geography">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
+
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Export Values" column="trade_value" aggregator="sum"/>
+    </Cube>
 
     <!--Gini-->
     <Cube name="Gini">
@@ -71,7 +178,6 @@
             <!--Measure-->
             <Measure name="Gini Index" column="gini" aggregator="avg"/>
     </Cube>
-
 
     <!--GDP-->
     <Cube name="GDP">
@@ -121,101 +227,204 @@
 
     <!--RCA-->
     <Cube name="RCA">
-    
         <Table name="rca"/>
-            
-            <!--Dimension-->    
-            <Dimension foreign_key="geo_id" name="Exporter">
-                <Hierarchy name="Geography">
-                    <Table name="dim_countries"/>
-                        <Level name="Exporter" key_column="oec_id" key_name = "comtrade_name" key_type="text">
-                        </Level>
-                </Hierarchy>
-            </Dimension>  
 
+            <DimensionUsage foreign_key="geo_id" name="Exporter" source="Geography">
+            </DimensionUsage>
 
-            <Dimension foreign_key="hs4_id" name="Product">
-                <Hierarchy name="Product">
-                    <Table name="dim_hs4"/>
-                        <Level name="HS2" key_column="hs2_id" name_column="hs2" key_type="nontext">
-                        </Level>
-                        <Level name="HS4" key_column="hs4_id" name_column="hs4" key_type="nontext">
-                        </Level>
-                </Hierarchy>
-            </Dimension>  
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
 
-            <Dimension foreign_key="dataset" name="Dataset">
-                <Hierarchy name="Dataset" primary_key="dataset">
-                    <Level name="Dataset" key_column="dataset" key_type="nontext" />
-                </Hierarchy>
-            </Dimension>
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
 
-            <Dimension foreign_key="with_oil" name="With Oil">
-                <Hierarchy name="With Oil" primary_key="with_oil">
-                    <Level name="With Oil" key_column="with_oil" key_type="nontext"/>
-                </Hierarchy>
-            </Dimension>
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
 
-            <Dimension foreign_key="with_aga" name="With AGA">
-                <Hierarchy name="With AGA" primary_key="with_aga">
-                    <Level name="With AGA" key_column="with_aga" key_type="nontext"/>
-                </Hierarchy>
-            </Dimension>
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
 
             <!--Measure-->
             <Measure name="RCA" column="rca" aggregator="sum">
             </Measure>
     </Cube>
 
-
-
-    <!--RCA-->
-    <Cube name="RCA">
+    <!--ECI-->
+    <Cube name="ECI">
     
-        <Table name="rca"/>
+        <Table name="eci"/>
             
             <!--Dimension-->    
-            <Dimension foreign_key="geo_id" name="Exporter">
-                <Hierarchy name="Geography">
-                    <Table name="dim_countries"/>
-                        <Level name="Exporter" key_column="oec_id" key_name = "comtrade_name" key_type="text">
-                        </Level>
-                </Hierarchy>
-            </Dimension>  
+            <DimensionUsage foreign_key="geo_id" name="Exporter" source="Geography">
+            </DimensionUsage>
 
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
 
-            <Dimension foreign_key="hs4_id" name="Product">
-                <Hierarchy name="Product">
-                    <Table name="dim_hs4"/>
-                        <Level name="HS2" key_column="hs2_id" name_column="hs2" key_type="nontext">
-                        </Level>
-                        <Level name="HS4" key_column="hs4_id" name_column="hs4" key_type="nontext">
-                        </Level>
-                </Hierarchy>
-            </Dimension>  
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
 
-            <Dimension foreign_key="dataset" name="Dataset">
-                <Hierarchy name="Dataset" primary_key="dataset">
-                    <Level name="Dataset" key_column="dataset" key_type="nontext" />
-                </Hierarchy>
-            </Dimension>
-
-            <Dimension foreign_key="with_oil" name="With Oil">
-                <Hierarchy name="With Oil" primary_key="with_oil">
-                    <Level name="With Oil" key_column="with_oil" key_type="nontext"/>
-                </Hierarchy>
-            </Dimension>
-
-            <Dimension foreign_key="with_aga" name="With AGA">
-                <Hierarchy name="With AGA" primary_key="with_aga">
-                    <Level name="With AGA" key_column="with_aga" key_type="nontext"/>
-                </Hierarchy>
-            </Dimension>
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
 
             <!--Measure-->
-            <Measure name="RCA" column="rca" aggregator="sum">
+            <Measure name="ECI" column="eci" aggregator="sum">
             </Measure>
     </Cube>
 
+    <!--PCI-->
+    <Cube name="PCI">
+    
+        <Table name="pci"/>
+            
+            <!--Dimension-->    
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
+
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="PCI" column="pci" aggregator="sum">
+            </Measure>
+    </Cube>
+
+    <!--Relatedness-->
+    <Cube name="Relatedness">
+    
+        <Table name="relatedness"/>
+            
+            <!--Dimension-->    
+            <DimensionUsage foreign_key="geo_id" name="Exporter" source="Geography">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
+
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Relatedness" column="relatedness" aggregator="sum">
+            </Measure>
+    </Cube>
+
+    <!--Proximity-->
+    <Cube name="Proximity">
+    
+        <Table name="proximity"/>
+            
+            <!--Dimension-->    
+
+            <Dimension foreign_key="hs4_id_1" name="Product A">
+                <Hierarchy name="HS4 A">
+                    <Table name="dim_hs4"/>
+                        <Level name="HS2 A" key_column="hs2_id" name_column="hs2" key_type="nontext">
+                        </Level>
+                        <Level name="HS4 A" key_column="hs4_id" name_column="hs4" key_type="nontext">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+
+            <Dimension foreign_key="hs4_id_2" name="Product B">
+                <Hierarchy name="HS4 B">
+                    <Table name="dim_hs4"/>
+                        <Level name="HS2 B" key_column="hs2_id" name_column="hs2" key_type="nontext">
+                        </Level>
+                        <Level name="HS4 B" key_column="hs4_id" name_column="hs4" key_type="nontext">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Proximity" column="proximity" aggregator="sum">
+            </Measure>
+    </Cube>
+
+    <!--Similarity-->
+    <Cube name="Similarity">
+    
+        <Table name="similarity"/>
+            
+            <!--Dimension-->    
+
+            <Dimension foreign_key="geo_id_1" name="Geography A">
+                <Hierarchy name="Geography A">
+                    <Table name="dim_countries" />
+                        <Level key_column="oec_id" name="Geography A" name_column="comtrade_name" key_type="text">
+                            <Property name="Importer Country ISO 3" column="iso_3"/>
+                        </Level>
+                </Hierarchy>
+            </Dimension>
+
+            <Dimension foreign_key="geo_id_2" name="Geography B">
+                <Hierarchy name="Geography B">
+                    <Table name="dim_countries" />
+                        <Level key_column="oec_id" name="Geography B" name_column="comtrade_name" key_type="text">
+                            <Property name="Importer Country ISO 3" column="iso_3"/>
+                        </Level>
+                </Hierarchy>
+            </Dimension>
+
+
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Similarity" column="similarity" aggregator="sum">
+            </Measure>
+    </Cube>
+
+    <!--Oportunity Gain-->
+    <Cube name="Oportunity Gain">
+    
+        <Table name="op_gain"/>
+            
+            <!--Dimension-->    
+            <DimensionUsage foreign_key="geo_id" name="Exporter" source="Geography">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
+
+            <!-- <DimensionUsage foreign_key="dataset" name="Dataset" source="Dataset">
+            </DimensionUsage> -->
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="Oportunity Gain" column="op_gain" aggregator="sum">
+            </Measure>
+    </Cube>
 
 </Schema>
