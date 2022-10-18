@@ -39,21 +39,21 @@
         </Hierarchy>
     </SharedDimension>
 
-    <SharedDimension name="With AGA">
-        <Hierarchy name="With AGA">
-            <InlineTable alias="aga_table">
-                <ColumnDef name="aga_code" key_type="nontext" key_column_type="UInt16" />
-                <ColumnDef name="aga_bool" key_type="text" caption_set="en"/>
+    <SharedDimension name="With SCR">
+        <Hierarchy name="With SCR">
+            <InlineTable alias="scr_table">
+                <ColumnDef name="scr_code" key_type="nontext" key_column_type="UInt16" />
+                <ColumnDef name="scr_bool" key_type="text" caption_set="en"/>
                 <Row>
-                    <Value column="aga_code">0</Value>
-                    <Value column="aga_bool">No</Value>
+                    <Value column="scr_code">0</Value>
+                    <Value column="scr_bool">No</Value>
                 </Row>
                 <Row>
-                    <Value column="aga_code">1</Value>
-                    <Value column="aga_bool">Yes</Value>
+                    <Value column="scr_code">1</Value>
+                    <Value column="scr_bool">Yes</Value>
                 </Row>
             </InlineTable>
-            <Level name="With AGA" key_column="aga_code" name_column="aga_bool" key_type="nontext" />
+            <Level name="With SCR" key_column="scr_code" name_column="scr_bool" key_type="nontext" />
         </Hierarchy>
     </SharedDimension>
 
@@ -72,11 +72,11 @@
                 </Row>
                 <Row>
                     <Value column="dataset_code">2</Value>
-                    <Value column="dataset_name">df_countries_aga</Value>
+                    <Value column="dataset_name">df_countries_scr</Value>
                 </Row>
                 <Row>
                     <Value column="dataset_code">3</Value>
-                    <Value column="dataset_name">df_countries_aga_no_oil</Value>
+                    <Value column="dataset_name">df_countries_scr_no_oil</Value>
                 </Row>                             
             </InlineTable>
             <Level name="Dataset" key_column="dataset_code" name_column="dataset_name" key_type="nontext" />
@@ -147,7 +147,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -232,7 +232,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -255,7 +255,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -278,7 +278,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -304,7 +304,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -330,7 +330,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -366,7 +366,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -404,7 +404,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
@@ -442,7 +442,7 @@
             <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
             </DimensionUsage>
 
-            <DimensionUsage foreign_key="with_aga" name="With AGA" source="With AGA">
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
             </DimensionUsage>
 
             <!--Measure-->
