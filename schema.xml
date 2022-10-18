@@ -203,8 +203,14 @@
                 </Hierarchy>
             </Dimension>
 
-            <DimensionUsage foreign_key="country_id" name="Exporter" source="Geography">
-            </DimensionUsage>
+
+            <Dimension foreign_key="country_id" name="Country">
+                <Hierarchy name="Geography">
+                    <Table name="dim_countries"/>
+                        <Level name="Country" key_column="iso_3" name_column="comtrade_name" key_type="text">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
 
             <!--Measure-->
             <Measure name="Gini Index" column="gini" aggregator="avg"/>
