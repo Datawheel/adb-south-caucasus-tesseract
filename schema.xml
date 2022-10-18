@@ -203,9 +203,8 @@
                 </Hierarchy>
             </Dimension>
 
-            <DimensionUsage foreign_key="oec_id" name="Exporter" source="Geography">
+            <DimensionUsage foreign_key="country_id" name="Exporter" source="Geography">
             </DimensionUsage>
-
 
             <!--Measure-->
             <Measure name="Gini Index" column="gini" aggregator="avg"/>
