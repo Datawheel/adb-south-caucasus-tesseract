@@ -160,34 +160,35 @@
         <Table name="gdp"/>
             
             <!--Dimension-->    
-            <Dimension foreign_key="year" name="Year">
-                <Hierarchy name="Year" primary_key="year">
-                    <Level name="Year" key_column="year" />
-                </Hierarchy>
-            </Dimension>
 
-            <DimensionUsage foreign_key="oec_id" name="Exporter" source="Geography">
-            </DimensionUsage>
+            <Dimension foreign_key="oec_id" name="Exporter">
+                <Hierarchy name="Country">
+                    <Table name="dim_countries"/>
+                        <Level name="Exporter" key_column="oec_id" name_column="comtrade_name" key_type="text">
+                        </Level>
+                </Hierarchy>
+            </Dimension>  
+
 
             <!--Measure-->
             <Measure name="Gross Domestic Product (GDP)" column="gdp" aggregator="sum"/>
+            <Measure name="Log Gross Domestic Product (GDP)" column="log_gdp" aggregator="sum"/>
     </Cube>
 
     <!--Emissions-->
     <Cube name="Emissions">
         <Table name="emissions"/>
 
-            <Dimension foreign_key='year' name='Year'>
-                <Hierarchy name='Year' primary_key='year'>
-                    <Level name='Year' key_column='year'/>
+
+            <Dimension foreign_key="oec_id" name="Exporter">
+                <Hierarchy name="Country">
+                    <Table name="dim_countries"/>
+                        <Level name="Exporter" key_column="oec_id" name_column="comtrade_name" key_type="text">
+                        </Level>
                 </Hierarchy>
-            </Dimension>
-
-            <DimensionUsage foreign_key="oec_id" name="Exporter" source="Geography">
-            </DimensionUsage>
-
+            </Dimension>  
             <!--Measure-->
-            <Measure name="Emissions KCO2" column="emissions_KCO2" aggregator="sum"/>
+            <Measure name="Emissions" column="emissions" aggregator="sum"/>
 
     </Cube>
 
@@ -197,17 +198,11 @@
         <Table name="gini"/>
             
             <!--Dimension-->    
-            <Dimension foreign_key="year" name="Year">
-                <Hierarchy name="Year" primary_key="year">
-                    <Level name="Year" key_column="year" />
-                </Hierarchy>
-            </Dimension>
 
-
-            <Dimension foreign_key="country_id" name="Country">
-                <Hierarchy name="Geography">
+            <Dimension foreign_key="oec_id" name="Exporter">
+                <Hierarchy name="Country">
                     <Table name="dim_countries"/>
-                        <Level name="Country" key_column="iso_3" name_column="comtrade_name" key_type="text">
+                        <Level name="Exporter" key_column="oec_id" name_column="comtrade_name" key_type="text">
                         </Level>
                 </Hierarchy>
             </Dimension>  
@@ -215,6 +210,50 @@
             <!--Measure-->
             <Measure name="Gini Index" column="gini" aggregator="avg"/>
     </Cube>
+
+
+    <!--PGI-->
+    <Cube name="PGI">
+    
+        <Table name="pgi"/>
+            
+            <!--Dimension-->    
+
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="PGI" column="pgi" aggregator="sum">
+            </Measure>
+    </Cube>
+
+    <!--PEII-->
+    <Cube name="PEII">
+    
+        <Table name="peii"/>
+            
+            <!--Dimension-->    
+
+            <DimensionUsage foreign_key="hs4_id" name="Product" source="Product">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_oil" name="With Oil" source="With Oil">
+            </DimensionUsage>
+
+            <DimensionUsage foreign_key="with_scr" name="With SCR" source="With SCR">
+            </DimensionUsage>
+
+            <!--Measure-->
+            <Measure name="PEII" column="peii" aggregator="sum">
+            </Measure>
+    </Cube>
+
+
 
     <!--RCA-->
     <Cube name="RCA">
